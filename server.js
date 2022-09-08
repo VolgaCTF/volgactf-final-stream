@@ -1,5 +1,5 @@
 const config = require('./lib/util/config')
-config.loadSync()
+config.load()
 
 const app = require('./lib/app')
 const logger = require('./lib/util/logger')
@@ -37,5 +37,9 @@ if (cluster.isMaster) {
   const server = app.listen(getServerPort(), getServerHost(), function () {
     logger.info(`Worker ${process.pid}, server listening on ${server.address().address}:${server.address().port}`)
     eventStream.run()
+
+    process.on('SIGTERM', function () {
+      eventStream.quit()
+    })
   })
 }

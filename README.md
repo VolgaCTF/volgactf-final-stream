@@ -5,5 +5,9 @@
 
 This repository is a Node.js application relaying system events to end users.
 
+## Maintainers
+
+- [Aleksandr Piatkin](https://github.com/aspyatkin)
+
 ## License
 MIT @ [VolgaCTF](https://github.com/VolgaCTF)

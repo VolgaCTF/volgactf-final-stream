@@ -1,25 +1,35 @@
 {
   "name": "volgactf-final-stream",
   "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:VolgaCTF/volgactf-final-stream.git",
-  "author": "Alexander Pyatkin <aspyatkin@gmail.com>",
-  "license": "MIT",
+  "description": "VolgaCTF Final Stream - Node.js application relaying system events to end users",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
-    "lint": "standard --verbose \"lib/**/*.js\" | snazzy"
+    "lint": "standard --verbose \"**/*.js\" | snazzy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VolgaCTF/volgactf-final-stream.git"
+  },
+  "author": "Aleksandr Piatkin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VolgaCTF/volgactf-final-stream/issues"
+  },
+  "homepage": "https://github.com/VolgaCTF/volgactf-final-stream#readme",
+  "devDependencies": {
+    "snazzy": "^9.0.0",
+    "standard": "^17.0.0"
   },
   "dependencies": {
-    "bookshelf": "^0.15.1",
-    "es-abstract": "^1.15.0",
-    "express": "^4.17.1",
-    "knex": "^0.19.3",
+    "express": "^4.18.1",
+    "knex": "^2.3.0",
     "netaddr": "^1.1.0",
-    "pg": "^7.12.1",
-    "redis": "^2.8.0",
-    "winston": "^3.2.1"
-  },
-  "devDependencies": {
-    "snazzy": "^8.0.0",
-    "standard": "^14.1.0"
+    "pg": "^8.8.0",
+    "pg-native": "^3.0.1",
+    "redis": "^4.3.0",
+    "winston": "^3.8.1"
   }
 }
