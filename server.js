@@ -4,42 +4,51 @@ config.load()
 const app = require('./lib/app')
 const logger = require('./lib/util/logger')
 const eventStream = require('./lib/util/event-stream')
-const cluster = require('cluster')
+// const cluster = require('cluster')
 
-function getNumProcesses () {
-  return parseInt(process.env.NUM_PROCESSES || '2', 10)
-}
+// function getNumProcesses () {
+//   return parseInt(process.env.NUM_PROCESSES || '2', 10)
+// }
 
 function getServerPort () {
-  return parseInt(process.env.PORT || '4000', 10)
+  return parseInt(process.env.PORT || '80', 10)
 }
 
 function getServerHost () {
-  return process.env.HOST || '127.0.0.1'
+  return process.env.HOST || '0.0.0.0'
 }
 
-if (cluster.isMaster) {
-  logger.info(`Master ${process.pid} is running`)
+const server = app.listen(getServerPort(), getServerHost(), function () {
+  logger.info(`Worker ${process.pid}, server listening on ${server.address().address}:${server.address().port}`)
+  eventStream.run()
 
-  for (let i = 0; i < getNumProcesses(); i++) {
-    cluster.fork()
-  }
-
-  cluster.on('online', function (worker) {
-    logger.info(`Worker ${worker.process.pid} started`)
+  process.on('SIGTERM', function () {
+    eventStream.quit()
   })
+})
 
-  cluster.on('exit', function (worker, code, signal) {
-    logger.info(`Worker ${worker.process.pid} died`)
-    cluster.fork()
-  })
-} else {
-  const server = app.listen(getServerPort(), getServerHost(), function () {
-    logger.info(`Worker ${process.pid}, server listening on ${server.address().address}:${server.address().port}`)
-    eventStream.run()
+// if (cluster.isMaster) {
+//   logger.info(`Master ${process.pid} is running`)
 
-    process.on('SIGTERM', function () {
-      eventStream.quit()
-    })
-  })
-}
+//   for (let i = 0; i < getNumProcesses(); i++) {
+//     cluster.fork()
+//   }
+
+//   cluster.on('online', function (worker) {
+//     logger.info(`Worker ${worker.process.pid} started`)
+//   })
+
+//   cluster.on('exit', function (worker, code, signal) {
+//     logger.info(`Worker ${worker.process.pid} died`)
+//     cluster.fork()
+//   })
+// } else {
+//   const server = app.listen(getServerPort(), getServerHost(), function () {
+//     logger.info(`Worker ${process.pid}, server listening on ${server.address().address}:${server.address().port}`)
+//     eventStream.run()
+
+//     process.on('SIGTERM', function () {
+//       eventStream.quit()
+//     })
+//   })
+// }
