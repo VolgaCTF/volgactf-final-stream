@@ -7,7 +7,6 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "node server.js",
     "lint": "standard --verbose \"**/*.js\" | snazzy"
   },
   "repository": {
