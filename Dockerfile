@@ -1,6 +1,8 @@
 FROM node:18.8-alpine
 LABEL maintainer="VolgaCTF"
 
+ARG UID=1337
+ARG GID=1337
 ARG BUILD_DATE
 ARG BUILD_VERSION
 ARG VCS_REF
@@ -17,6 +19,6 @@ WORKDIR /app
 COPY VERSION package*.json server.js .
 COPY lib ./lib
 RUN apk add --no-cache --virtual .gyp python3 make g++ postgresql-dev && npm ci --production && apk del .gyp
-RUN addgroup volgactf && adduser --disabled-password --gecos "" --ingroup volgactf --no-create-home volgactf && chown -R volgactf:volgactf .
+RUN addgroup --gid ${GID} volgactf && adduser --uid ${UID} --disabled-password --gecos "" --ingroup volgactf --no-create-home volgactf && chown -R volgactf:volgactf .
 USER volgactf
 CMD ["node", "server.js"]
